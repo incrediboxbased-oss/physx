@@ -12,8 +12,11 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.10.2
-      - name: Unzip
-        run: for z in *.zip; do unzip -o "$z"; done
+      - name: Unzip newest
+        run: |
+          Z=$(ls *.zip | sort -V | tail -1)
+          echo "Using $Z"
+          unzip -o "$Z"
       - name: Build
         run: cd physx && gradle build --no-daemon
       - uses: actions/upload-artifact@v4
